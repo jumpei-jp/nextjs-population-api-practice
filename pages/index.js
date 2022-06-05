@@ -1,23 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { Prefecture } from './api/prefecture';
 
-export default function Home(){
-  const [users, setUsers] = useState([]); //usersはステートの変数、setUsersはステートを更新する関数 初期値が配列？
+export default function Home() {
+  const [prefectures, setPrefecture] = useState([]);
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch('/api/users');
+    const fetchPrefecture = async () => {
+      const response = await fetch('/api/prefecture');
       const data = await response.json();
-      setUsers(data.users);
-    }
-    fetchUsers()
-  },[]);
+      setPrefecture(data.result); //prefectureの中に取得したデータを入れる
+    };
+    fetchPrefecture();
+  }, []);
 
   return (
     <>
       <ul>
-        {users.map(user => (
-          <li key={user.id}>{user.name}</li>
-        ))}
+      {prefectures.map(pref => <p key={pref.prefCode}>{`${pref.prefCode}: ${pref.prefName}`}</p>)}
       </ul>
     </>
-  )
+  );
 }
